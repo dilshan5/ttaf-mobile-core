@@ -1,6 +1,5 @@
 package com.automation.qa.ttafmobilecore.driver;
 
-
 import com.automation.qa.ttafmobilecore.util.Constant;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -51,6 +50,8 @@ public class DriverFactory {
 
     /**
      * This method set up device (appium) based capabilities for ios or android
+     * refer following URL for Appium Desired Capabilities,
+     * http://appium.io/docs/en/writing-running-appium/caps/
      *
      * @param deviceName
      * @param browser
@@ -59,20 +60,25 @@ public class DriverFactory {
      */
     private static void initDeviceCapabilities(String deviceName, String browser, String OSverison, String deviceID) {
         if (Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS")) {
-            capability = new DesiredCapabilities(browser, "", Platform.MAC);
-            capability.setCapability("platformName", "iOS");
+            capability = new DesiredCapabilities();
+            capability.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
+            capability.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
             capability.setCapability("autoDismissAlerts", true);
+            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"XCUITest");
 
         } else if (Constant.MOBILE_PLATFORM.equalsIgnoreCase("ANDROID")) {
             capability = new DesiredCapabilities();
-            capability.setCapability("platformName", "Android");
-            capability.setCapability("udid", deviceID);
+            capability.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+            capability.setCapability(MobileCapabilityType.UDID, deviceID);
+            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Appium");
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
-        capability.setCapability("platformVersion", OSverison);
-        capability.setCapability("deviceName", deviceName);
+        //Appium will wait for a new command from the client before assuming the client quit and ending the session
+        capability.setCapability("newCommandTimeout", 2000);
+        capability.setCapability(MobileCapabilityType.PLATFORM_VERSION, OSverison);
+        capability.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
         // capability.setCapability("udid", deviceName);
-        capability.setCapability("deviceOrientation", "portrait");
+        capability.setCapability(MobileCapabilityType.ORIENTATION, "PORTRAIT");
         long id = Thread.currentThread().getId();
         System.out.println("Set Device capability to Thread id " + id);
     }
@@ -85,16 +91,16 @@ public class DriverFactory {
     private static void initAppiumDevice(DesiredCapabilities capabilities, String port) {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("NATIVE") || Constant.MOBILE_APP_TYPE.equalsIgnoreCase("HYBRID")) {
             capability.setCapability(MobileCapabilityType.APP, loadApplication().getAbsolutePath());
-            capabilities.setCapability("browserName", Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
+            capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
         } else {
-            capabilities.setCapability("browserName", strExecuteBrowser);
+            capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
         }
 
         //   capabilities.setCapability("--full-reset", true);
         // capabilities.setCapability("--session-override", true);
 
         // setting appium version
-        capabilities.setCapability("appiumVersion", "1.5.2");
+        capabilities.setCapability(MobileCapabilityType.APPIUM_VERSION, "1.9.1");
 
         try {
             URL url = null;
