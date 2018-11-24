@@ -1,16 +1,15 @@
-package com.automation.qa.ttafuicore.page;
+package com.automation.qa.ttafmobilecore.page;
 
+import io.appium.java_client.AppiumDriver;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 /**
  * Introduces an additional abstract layer for real Page classes template, every page class should be extended from this
- * Created by DilshanF on 11/06/2018.
  */
 public class BasicPage {
     private static final Logger LOGGER = Logger.getLogger(String.valueOf(BasicPage.class));
-    protected RemoteWebDriver driver;
+    protected AppiumDriver driver;
 
     public BasicPage() {
     }
@@ -20,7 +19,7 @@ public class BasicPage {
      *
      * @param driver
      */
-    public BasicPage(RemoteWebDriver driver) {
+    public BasicPage(AppiumDriver driver) {
         this.driver = driver;
     }
 }
