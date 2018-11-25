@@ -74,7 +74,7 @@ public class DriverFactory {
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
-        capability.setCapability("newCommandTimeout", 2000);
+        capability.setCapability("newCommandTimeout", 200);
         capability.setCapability(MobileCapabilityType.PLATFORM_VERSION, OSverison);
         capability.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
         // capability.setCapability("udid", deviceName);
@@ -96,7 +96,7 @@ public class DriverFactory {
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
         }
 
-        //   capabilities.setCapability("--full-reset", true);
+        capabilities.setCapability(MobileCapabilityType.FULL_RESET, false);
         // capabilities.setCapability("--session-override", true);
 
         // setting appium version
