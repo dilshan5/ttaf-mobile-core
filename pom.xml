@@ -7,6 +7,10 @@
     <groupId>com.automation.qa</groupId>
     <artifactId>ttaf-mobile-core</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>github</github.global.server>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -61,7 +65,7 @@
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.12</version>
                 <configuration>
-                    <message>Maven artifacts for Parallel Execution with Selenium Grid ${project.artifactId}
+                    <message>Maven artifacts for Mobile test automation ${project.artifactId}
                         ${project.version}
                     </message>
                     <!-- git commit message -->
