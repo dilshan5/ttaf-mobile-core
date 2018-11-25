@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.automation.qa</groupId>
+  <artifactId>ttaf-mobile-core</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20181125152827</lastUpdated>
+  </versioning>
+</metadata>
