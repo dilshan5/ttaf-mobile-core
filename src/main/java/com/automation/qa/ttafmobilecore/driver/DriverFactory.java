@@ -70,7 +70,8 @@ public class DriverFactory {
             capability = new DesiredCapabilities();
             capability.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
             capability.setCapability(MobileCapabilityType.UDID, deviceID);
-            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Appium");
+            //UiAutomator2 support from andriod 5.0 onwards only
+            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
