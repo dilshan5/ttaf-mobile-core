@@ -12,6 +12,13 @@ public class WebDriverListener implements IInvokedMethodListener {
 
     @Override
     public void afterInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
+        LOGGER.info("TTAF MESSAGE:BEGIN: com.automation.qa.ttafuicore.listener.WebDriverListener.afterInvocation");
+        if (iInvokedMethod.isTestMethod()) {
+
+        } else {
+            LOGGER.info("TTAF MESSAGE: TTAF Provided method is NOT a TestNG testMethod!!!");
+        }
+        LOGGER.info("TTAF MESSAGE:END: com.automation.qa.ttafuicore.listener.WebDriverListener.afterInvocation");
     }
 
     @Override
@@ -25,6 +32,9 @@ public class WebDriverListener implements IInvokedMethodListener {
             String deviceName = iInvokedMethod.getTestMethod().getXmlTest().getLocalParameters().get("mobile-device-name");
             String appiumServerPort = iInvokedMethod.getTestMethod().getXmlTest().getLocalParameters().get("appium-server-port");
 
+            DriverFactory.createInstance(appiumServerPort, deviceName, OSverison, browserName, deviceID);
+            LOGGER.info("Done! Created " + deviceName + " driver!");
+            
             Constant.BROWSER_NAME = browserName;// set Browser Name
             LOGGER.info("Execution Browser set as: " + browserName);
             LOGGER.info("Execution Device ID set as: " + deviceID);
@@ -32,8 +42,7 @@ public class WebDriverListener implements IInvokedMethodListener {
             LOGGER.info("Execution Device Name set as: " + deviceName);
             LOGGER.info("Execution Appium Server Port is: " + appiumServerPort);
 
-            DriverFactory.createInstance(appiumServerPort, deviceName, OSverison, browserName, deviceID);
-            LOGGER.info("Done! Created " + browserName + " driver!");
+
 
         } else {
             LOGGER.info("TTAF MESSAGE: TTAF Provided method is NOT a TestNG testMethod!!!");
