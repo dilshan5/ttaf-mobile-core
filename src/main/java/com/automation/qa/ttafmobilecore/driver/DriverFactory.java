@@ -73,7 +73,7 @@ public class DriverFactory {
             capability.setCapability(MobileCapabilityType.UDID, deviceID);
             //UiAutomator2 support from andriod 5.0 onwards only
            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
-          // capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
+          capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
@@ -94,8 +94,8 @@ public class DriverFactory {
     private static void initAppiumDevice(DesiredCapabilities capabilities, String port) {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("NATIVE") || Constant.MOBILE_APP_TYPE.equalsIgnoreCase("HYBRID")) {
             capability.setCapability(MobileCapabilityType.APP, loadApplication().getAbsolutePath());
-            capabilities.setCapability("appPackage",Constant.MOBILE_APP_PACKAGE);
-            capabilities.setCapability("appActivity",Constant.MOBILE_APP_LAUNCH_ACTIVITY);;
+            capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,Constant.MOBILE_APP_PACKAGE);
+            capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,Constant.MOBILE_APP_LAUNCH_ACTIVITY);;
            // capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
         } else {
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
