@@ -12,7 +12,7 @@ public class DriverManager {
         if (driver.get() == null) {
             // this is need when running tests from IDE
             LOGGER.info("Thread has no WedDriver, creating new one");
-            DriverFactory.createInstance(Constant.APPIUM_SERVER_PORT, Constant.MOBILE_DEVICE_NAME, Constant.MOBILE_OS_VERSION, Constant.BROWSER_NAME,Constant.MOBILE_DEVICE_ID);
+            DriverFactory.createInstance(Constant.APPIUM_SERVER_PORT, Constant.MOBILE_DEVICE_NAME, Constant.MOBILE_OS_VERSION, Constant.BROWSER_NAME,Constant.MOBILE_DEVICE_ID,Constant.UIAUTOMATOR2_SYSTEMPORT);
         }
         LOGGER.info("Getting instance of remote driver" + driver.get().getClass());
         return driver.get();

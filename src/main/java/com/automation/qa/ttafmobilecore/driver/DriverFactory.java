@@ -3,6 +3,7 @@ package com.automation.qa.ttafmobilecore.driver;
 import com.automation.qa.ttafmobilecore.util.Constant;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Platform;
@@ -18,10 +19,10 @@ public class DriverFactory {
     private static String strExecuteBrowser = "";
     protected static DesiredCapabilities capability;
 
-    public static void createInstance(String appiumServerPort, String deviceName, String OSverison, String browserName, String deviceID) {
+    public static void createInstance(String appiumServerPort, String deviceName, String OSverison, String browserName, String deviceID, String systemPort) {
         strExecuteBrowser = (browserName != null) ? browserName : "chrome";
 
-        initDeviceCapabilities(deviceName, browserName, OSverison, deviceID);
+        initDeviceCapabilities(deviceName, browserName, OSverison, deviceID,systemPort);
 
         if (Constant.GRID_MODE.equals("on")) {
 
@@ -37,13 +38,13 @@ public class DriverFactory {
      */
     private static void setDriverSettings() {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("WEB")) {
-            LOGGER.info("ZTAF MESSAGE: Initiate " + Constant.MOBILE_PLATFORM.toUpperCase() + " Driver");
+            LOGGER.info("TTAF MESSAGE: Initiate " + Constant.MOBILE_PLATFORM.toUpperCase() + " Driver");
             DriverManager.driver.get().navigate().to(Constant.URL);
-            LOGGER.info("ZTAF MESSAGE: Browser Loaded And Navigated To : [" + Constant.URL + " ]");
+            LOGGER.info("TTAF MESSAGE: Browser Loaded And Navigated To : [" + Constant.URL + " ]");
         } else if (Constant.MOBILE_APP_TYPE.equals("NATIVE") || Constant.MOBILE_APP_TYPE.equals("HYBRID")) {
 
         } else {
-            System.out.print("ZTAF MESSAGE: Invalid App type..Exit from the execution..");
+            System.out.print("TTAF MESSAGE: Invalid App type..Exit from the execution..");
             System.exit(1);
         }
     }
@@ -58,7 +59,7 @@ public class DriverFactory {
      * @param OSverison
      * @param deviceID
      */
-    private static void initDeviceCapabilities(String deviceName, String browser, String OSverison, String deviceID) {
+    private static void initDeviceCapabilities(String deviceName, String browser, String OSverison, String deviceID,String systemPort) {
         if (Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS")) {
             capability = new DesiredCapabilities();
             capability.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
@@ -71,7 +72,8 @@ public class DriverFactory {
             capability.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
             capability.setCapability(MobileCapabilityType.UDID, deviceID);
             //UiAutomator2 support from andriod 5.0 onwards only
-            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+           capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+           capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
