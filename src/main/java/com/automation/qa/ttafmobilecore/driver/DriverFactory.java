@@ -41,7 +41,7 @@ public class DriverFactory {
             LOGGER.info("TTAF MESSAGE: Initiate " + Constant.MOBILE_PLATFORM.toUpperCase() + " Driver");
             DriverManager.driver.get().navigate().to(Constant.URL);
             LOGGER.info("TTAF MESSAGE: Browser Loaded And Navigated To : [" + Constant.URL + " ]");
-        } else if (Constant.MOBILE_APP_TYPE.equals("NATIVE") || Constant.MOBILE_APP_TYPE.equals("HYBRID")) {
+        } else if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("NATIVE") || Constant.MOBILE_APP_TYPE.equalsIgnoreCase("HYBRID")) {
 
         } else {
             System.out.print("TTAF MESSAGE: Invalid App type..Exit from the execution..");
@@ -73,7 +73,7 @@ public class DriverFactory {
             capability.setCapability(MobileCapabilityType.UDID, deviceID);
             //UiAutomator2 support from andriod 5.0 onwards only
            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
-           capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
+          // capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
@@ -94,7 +94,9 @@ public class DriverFactory {
     private static void initAppiumDevice(DesiredCapabilities capabilities, String port) {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("NATIVE") || Constant.MOBILE_APP_TYPE.equalsIgnoreCase("HYBRID")) {
             capability.setCapability(MobileCapabilityType.APP, loadApplication().getAbsolutePath());
-            capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
+            capabilities.setCapability("appPackage",Constant.MOBILE_APP_PACKAGE);
+            capabilities.setCapability("appActivity",Constant.MOBILE_APP_LAUNCH_ACTIVITY);;
+           // capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
         } else {
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
         }
