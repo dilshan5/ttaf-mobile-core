@@ -1,43 +1,36 @@
 package com.automation.qa.ttafmobilecore.util;
 
-import cucumber.api.CucumberOptions;
 import cucumber.api.testng.CucumberFeatureWrapper;
-import cucumber.api.testng.PickleEventWrapper;
 import cucumber.api.testng.TestNGCucumberRunner;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-
-@CucumberOptions(strict = true, plugin = "json:target/cucumber-report-feature-composite.json")
 public class CustomAbstractTestNGCucumberTests {
     private TestNGCucumberRunner testNGCucumberRunner;
 
-    public CustomAbstractTestNGCucumberTests() {
+    @BeforeClass(alwaysRun = true)
+    public void setUpClass() {
+        System.out.println("Cucumber Test Class Before");
+        testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
     }
 
-    @BeforeClass(
-            alwaysRun = true
-    )
-    public void setUpClass() throws Exception {
-        this.testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
+    @Test(groups = "cucumber", description = "Runs intive Test Scenarios", dataProvider = "features")
+    public void feature(CucumberFeatureWrapper cucumberFeature) {
+        System.out.println("Cucumber Test Class Inside Test");
+        System.out.println(cucumberFeature.getCucumberFeature());
+        testNGCucumberRunner.runCucumber(cucumberFeature.getCucumberFeature());
     }
 
-    @Test(groups = "cucumber", description = "Runs Cucumber Scenarios", dataProvider = "scenarios")
-    public void scenario(PickleEventWrapper pickleEvent, CucumberFeatureWrapper cucumberFeature) throws Throwable {
-        testNGCucumberRunner.runScenario(pickleEvent.getPickleEvent());
+    @DataProvider
+    public Object[][] features() {
+        System.out.println("Data Provider test Class");
+        return testNGCucumberRunner.provideFeatures();
     }
 
-    @DataProvider(parallel = true)
-    public Object[][] scenarios() {
-        return testNGCucumberRunner.provideScenarios();
-    }
-
-    @AfterClass(
-            alwaysRun = true
-    )
+    @AfterClass(alwaysRun = true)
     public void tearDownClass() throws Exception {
-        this.testNGCucumberRunner.finish();
+        testNGCucumberRunner.finish();
     }
 }
