@@ -3,7 +3,6 @@ package com.automation.qa.ttafmobilecore.page;
 import io.appium.java_client.AppiumDriver;
 import org.apache.log4j.Logger;
 
-
 /**
  * Introduces an additional abstract layer for real Page classes template, every page class should be extended from this
  */

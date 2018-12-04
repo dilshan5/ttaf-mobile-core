@@ -26,7 +26,6 @@ public class Constant {
     private static final String URL_KEY = "url";
     private static final String HUBURL_KEY = "hubURL";
     private static final String GRID_MODE_KEY = "grid-mode";
-    public static final String UIAUTOMATOR2_SYSTEMPORT_KEY="UiAutomator2-systemPort";
 
     private static Properties properties;
     public static String BROWSER_NAME;
@@ -45,7 +44,6 @@ public class Constant {
     public static String MOBILE_APP_NAME;
     public static String MOBILE_APP_PACKAGE;
     public static String MOBILE_APP_LAUNCH_ACTIVITY;
-    public static String UIAUTOMATOR2_SYSTEMPORT;
 
     static {
         try {
@@ -86,7 +84,6 @@ public class Constant {
             MOBILE_APP_NAME = properties.getProperty(MOBILE_APP_NAME_KEY);
             MOBILE_APP_PACKAGE = properties.getProperty(MOBILE_APP_PACKAGE_KEY);
             MOBILE_APP_LAUNCH_ACTIVITY = properties.getProperty(MOBILE_APP_LAUNCH_ACTIVITY_KEY);
-            UIAUTOMATOR2_SYSTEMPORT = properties.getProperty(UIAUTOMATOR2_SYSTEMPORT_KEY);
             LOGGER.info("Set up Framework variables");
         } catch (Exception e) {
             LOGGER.error("Error: Unable to load framework variables ", e);
