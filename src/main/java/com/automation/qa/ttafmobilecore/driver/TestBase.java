@@ -1,8 +1,7 @@
 package com.automation.qa.ttafmobilecore.driver;
 
 import com.automation.qa.ttafmobilecore.util.Constant;
-import com.automation.qa.ttafmobilecore.util.CustomAbstractTestNGCucumberTests;
-import io.appium.java_client.AppiumDriver;
+import cucumber.api.testng.AbstractTestNGCucumberTests;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -10,24 +9,22 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-public class TestBase extends CustomAbstractTestNGCucumberTests {
+public class TestBase extends AbstractTestNGCucumberTests {
 
     private static final Logger LOGGER = Logger.getLogger(String.valueOf(TestBase.class));
+    private String strExecuteBrowser = "";
+    private DesiredCapabilities capability;
+    private WebDriverWait wait;
 
-    private  String strExecuteBrowser = "";
-    public DesiredCapabilities capability;
-
-    @Parameters({"appium-server-port","mobile-device-id","mobile-version","browserName","mobile-device-name"})
+    @Parameters({"appium-server-port", "mobile-device-id", "mobile-version", "browserName", "mobile-device-name"})
     @BeforeMethod
     public void initializeBaseSetup(@Optional("1234")String appiumServerPort, @Optional("emulator-5554")String deviceID, @Optional("")String OSverison, @Optional("chrome")String browserName, @Optional("")String deviceName) throws Exception {
         long id = Thread.currentThread().getId();
@@ -73,7 +70,7 @@ public class TestBase extends CustomAbstractTestNGCucumberTests {
             capability.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
             capability.setCapability(MobileCapabilityType.UDID, deviceID);
             //UiAutomator2 support from andriod 5.0 onwards only
-            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+            capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             //capability.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, Integer.valueOf(systemPort));
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         }
@@ -93,11 +90,12 @@ public class TestBase extends CustomAbstractTestNGCucumberTests {
      *
      * @param capabilities preferred configurations for ios or android driver
      */
-    private void initAppiumDevice(DesiredCapabilities capabilities, String port) throws Exception{
+    private void initAppiumDevice(DesiredCapabilities capabilities, String port) throws Exception {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("NATIVE") || Constant.MOBILE_APP_TYPE.equalsIgnoreCase("HYBRID")) {
             capabilities.setCapability(MobileCapabilityType.APP, loadApplication().getAbsolutePath());
-            capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,Constant.MOBILE_APP_PACKAGE);
-            capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,Constant.MOBILE_APP_LAUNCH_ACTIVITY);;
+            capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Constant.MOBILE_APP_PACKAGE);
+            capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Constant.MOBILE_APP_LAUNCH_ACTIVITY);
+            ;
             // capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, Constant.MOBILE_PLATFORM.equalsIgnoreCase("IOS") ? "IOS" : "Android");
         } else {
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
@@ -133,6 +131,7 @@ public class TestBase extends CustomAbstractTestNGCucumberTests {
                 // driver = new AndroidDriver(url, capabilities);
                 ThreadLocalDriver.setTLDriver(new AndroidDriver(url, capabilities));
             }
+            wait = new WebDriverWait(ThreadLocalDriver.getTLDriver(), 10);
             long id = Thread.currentThread().getId();
             System.out.println("Starting device Thread id " + id);
         } catch (MalformedURLException e) {
@@ -154,7 +153,7 @@ public class TestBase extends CustomAbstractTestNGCucumberTests {
     /**
      * Setup Basic WebDriver Browser Settings
      */
-    private void setDriverSettings() throws Exception{
+    private void setDriverSettings() throws Exception {
         if (Constant.MOBILE_APP_TYPE.equalsIgnoreCase("WEB")) {
             LOGGER.info("TTAF MESSAGE: Initiate " + Constant.MOBILE_PLATFORM.toUpperCase() + " Driver");
             ThreadLocalDriver.getTLDriver().navigate().to(Constant.URL);
