@@ -22,7 +22,6 @@ public class DriverFactory extends AbstractTestNGCucumberTests {
     private static final Logger LOGGER = Logger.getLogger(String.valueOf(DriverFactory.class));
     private String strExecuteBrowser = "";
     private DesiredCapabilities capability;
-    private WebDriverWait wait;
 
     @Parameters({"appium-server-port", "mobile-device-id", "mobile-version", "browserName", "mobile-device-name"})
     @BeforeMethod
@@ -77,6 +76,7 @@ public class DriverFactory extends AbstractTestNGCucumberTests {
             //UiAutomator2 support from andriod 5.0 onwards only
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
+            capability.setCapability("chromedriverExecutable", "C:\\chromedriver.exe");
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
         capability.setCapability("newCommandTimeout", 200);
