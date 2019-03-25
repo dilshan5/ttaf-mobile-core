@@ -76,10 +76,10 @@ public class DriverFactory extends AbstractTestNGCucumberTests {
             //UiAutomator2 support from andriod 5.0 onwards only
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             capability.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
-            capability.setCapability("chromedriverExecutable", "C:\\chromedriver.exe");
+          //  capability.setCapability("chromedriverExecutable", "C:\\chromedriver.exe");
         }
         //Appium will wait for a new command from the client before assuming the client quit and ending the session
-        capability.setCapability("newCommandTimeout", 200);
+    //    capability.setCapability("newCommandTimeout", 10);
         capability.setCapability(MobileCapabilityType.PLATFORM_VERSION, OSverison);
         capability.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
         capability.setCapability(MobileCapabilityType.ORIENTATION, "PORTRAIT");
