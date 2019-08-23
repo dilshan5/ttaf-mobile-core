@@ -8,6 +8,7 @@ import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -15,6 +16,8 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory extends AbstractTestNGCucumberTests {
@@ -100,13 +103,23 @@ public class DriverFactory extends AbstractTestNGCucumberTests {
             capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Constant.MOBILE_APP_LAUNCH_ACTIVITY);
         } else {
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, strExecuteBrowser);
+           if (strExecuteBrowser.equalsIgnoreCase("chrome")) {
+                ChromeOptions options = new ChromeOptions();
+                Map<String, Object> prefs = new HashMap<String, Object>();
+                prefs.put("profile.default_content_settings.popups", 0);
+                options.setExperimentalOption("prefs", prefs);
+                options.addArguments("ignore-certificate-errors");
+                options.addArguments("disable-popup-blocking");
+                options.addArguments("--no-first-run");
+                capability.setCapability(ChromeOptions.CAPABILITY, options);
+            }
         }
 
-        capabilities.setCapability(MobileCapabilityType.FULL_RESET, false);
+        capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
         // capabilities.setCapability("--session-override", true);
 
         // setting appium version
-        capabilities.setCapability(MobileCapabilityType.APPIUM_VERSION, "1.9.1");
+        capabilities.setCapability(MobileCapabilityType.APPIUM_VERSION, "1.8.1");
 
         try {
             URL url = null;

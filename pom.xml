@@ -6,7 +6,7 @@
 
     <groupId>com.automation.qa</groupId>
     <artifactId>ttaf-mobile-core</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <properties>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
