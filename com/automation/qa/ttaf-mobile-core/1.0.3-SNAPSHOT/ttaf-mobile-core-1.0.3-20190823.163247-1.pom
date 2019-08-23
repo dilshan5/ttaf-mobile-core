@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.automation.qa</groupId>
+    <artifactId>ttaf-mobile-core</artifactId>
+    <version>1.0.3-SNAPSHOT</version>
+    <properties>
+        <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>github</github.global.server>
+        <appium.version>6.0.0-BETA5</appium.version>
+        <selenium.version>3.11.0</selenium.version>
+        <testng.version>6.14.3</testng.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Cucumber Dependencies -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-jvm</artifactId>
+            <version>1.2.5</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>2.12.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.14.3</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}\mvn-repo
+                    </altDeploymentRepository>
+                    <updateReleaseInfo>true</updateReleaseInfo>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Maven artifacts for Mobile test automation ${project.artifactId}
+                        ${project.version}
+                    </message>
+                    <!-- git commit message -->
+                    <noJekyll>true</noJekyll>
+                    <!-- disable webpage processing -->
+                    <outputDirectory>${project.build.directory}\mvn-repo</outputDirectory>
+                    <!-- matches distribution management repository url above -->
+                    <branch>refs/heads/mvn-repo</branch>
+                    <!-- remote branch name -->
+                    <merge>true</merge>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>ttaf-mobile-core</repositoryName>
+                    <!-- github repo name -->
+                    <repositoryOwner>dilshan5</repositoryOwner>
+                    <!-- github username  -->
+                </configuration>
+                <executions>
+                    <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <developers>
+        <developer>
+            <id>dilshanf</id>
+            <name>Dilshan Fernando</name>
+            <email>dilshan.fdo@gmail.com</email>
+            <roles>
+                <role>Owner</role>
+            </roles>
+        </developer>
+    </developers>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}\mvn-repo</url>
+        </repository>
+    </distributionManagement>
+    <ciManagement>
+        <system>jenkins</system>
+        <url>http://35.229.56.169:8080/jenkins</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>false</sendOnSuccess>
+                <sendOnWarning>false</sendOnWarning>
+                <configuration>
+                    <address>dilshan.fdo@gmail.com</address>
+                </configuration>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+</project>
